@@ -98,18 +98,18 @@ jobs:
         run: |
           gcloud auth configure-docker ${{ env.GCP_REGION }}-docker.pkg.dev --quiet
 
-      # 🛠️ TẠO REPOSITORY TRÊN ARTIFACT REGISTRY NẾU TRÊN GCP CHƯA CÓ
-      # Toán tử `||` hoạt động: Nếu lệnh kiểm tra (describe) bị lỗi (chưa có repo) -> Lập tức chạy lệnh tạo mới (create)
-      - name: Create Artifact Registry repository if needed
-        run: |
-          gcloud artifacts repositories describe "$GAR_REPOSITORY" \
-            --location="${{ env.GCP_REGION }}" \
-            --project="${{ env.GCP_PROJECT_ID }}" >/dev/null 2>&1 || \
-          gcloud artifacts repositories create "$GAR_REPOSITORY" \
-            --repository-format=docker \
-            --location="${{ env.GCP_REGION }}" \
-            --project="${{ env.GCP_PROJECT_ID }}" \
-            --description="Docker repository for vprofile app"
+      # # 🛠️ TẠO REPOSITORY TRÊN ARTIFACT REGISTRY NẾU TRÊN GCP CHƯA CÓ
+      # # Toán tử `||` hoạt động: Nếu lệnh kiểm tra (describe) bị lỗi (chưa có repo) -> Lập tức chạy lệnh tạo mới (create)
+      # - name: Create Artifact Registry repository if needed
+      #   run: |
+      #     gcloud artifacts repositories describe "$GAR_REPOSITORY" \
+      #       --location="${{ env.GCP_REGION }}" \
+      #       --project="${{ env.GCP_PROJECT_ID }}" >/dev/null 2>&1 || \
+      #     gcloud artifacts repositories create "$ECR_REPOSITORY" \
+      #       --repository-format=docker \
+      #       --location="${{ env.GCP_REGION }}" \
+      #       --project="${{ env.GCP_PROJECT_ID }}" \
+      #       --description="Docker repository for vprofile app"
 
       # 🐳 TIẾN HÀNH BUILD VÀ PUSH DOCKER IMAGE THEO ĐỊNH DẠNG URL CỦA GCP
       - name: Build and push Docker images
@@ -122,7 +122,7 @@ jobs:
           IMAGE_TAG=${GITHUB_SHA::7}
           
           # Đường dẫn image đầy đủ trên GCP: {Domain_Registry}/{Tên_Repository}
-          IMAGE_NAME=${GAR_REGISTRY}/${{ env.GAR_REPOSITORY }}
+          IMAGE_NAME=${GAR_REGISTRY}/${{ env.ECR_REPOSITORY }}
           
           # Thực hiện Build Docker Image từ Dockerfile đa tầng (multistage)
           docker build --file Docker-files/app/multistage/Dockerfile --tag ${IMAGE_NAME}:${IMAGE_TAG} .
