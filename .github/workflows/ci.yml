@@ -86,7 +86,7 @@ jobs:
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
-          credentials_json: ${{ secrets.GCP_SA_KEY }} # Nạp trọn vẹn file JSON bạn vừa đúc được vào đây
+          credentials_json: ${{ secrets.GCP_KEY }} # Nạp trọn vẹn file JSON bạn vừa đúc được vào đây
 
       # ⚙️ Cài đặt các công cụ gcloud CLI cần thiết lên máy ảo GitHub Actions
       - name: Set up Cloud SDK
