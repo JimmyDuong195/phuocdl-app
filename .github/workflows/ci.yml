@@ -98,23 +98,15 @@ jobs:
         run: |
           gcloud auth configure-docker ${{ env.GCP_REGION }}-docker.pkg.dev --quiet
 
-      # # 🛠️ TẠO REPOSITORY TRÊN ARTIFACT REGISTRY NẾU TRÊN GCP CHƯA CÓ
-      # # Toán tử `||` hoạt động: Nếu lệnh kiểm tra (describe) bị lỗi (chưa có repo) -> Lập tức chạy lệnh tạo mới (create)
-      # - name: Create Artifact Registry repository if needed
-      #   run: |
-      #     gcloud artifacts repositories describe "$GAR_REPOSITORY" \
-      #       --location="${{ env.GCP_REGION }}" \
-      #       --project="${{ env.GCP_PROJECT_ID }}" >/dev/null 2>&1 || \
-      #     gcloud artifacts repositories create "$ECR_REPOSITORY" \
-      #       --repository-format=docker \
-      #       --location="${{ env.GCP_REGION }}" \
-      #       --project="${{ env.GCP_PROJECT_ID }}" \
-      #       --description="Docker repository for vprofile app"
-
       # 🐳 TIẾN HÀNH BUILD VÀ PUSH DOCKER IMAGE THEO ĐỊNH DẠNG URL CỦA GCP
       - name: Build and push Docker images
         id: set-outputs
         run: |
+          # 1. Debug xem biến nào đang trống
+          echo "DEBUG: REGION=${{ env.GCP_REGION }}"
+          echo "DEBUG: PROJECT=${{ env.GCP_PROJECT_ID }}"
+          echo "DEBUG: REPO=${{ env.GAR_REPOSITORY }}"
+          
           # Định nghĩa Domain Registry của GCP: {vùng}-docker.pkg.dev/{id-project}
           GAR_REGISTRY="${{ env.GCP_REGION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}"
           
