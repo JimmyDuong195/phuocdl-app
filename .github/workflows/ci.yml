@@ -114,7 +114,7 @@ jobs:
           IMAGE_TAG=${GITHUB_SHA::7}
           
           # Đường dẫn image đầy đủ trên GCP: {Domain_Registry}/{Tên_Repository}
-          IMAGE_NAME=${GAR_REGISTRY}/${{ env.GAR_REPOSITORY }}
+          IMAGE_NAME=${GAR_REGISTRY}/${{ env.GAR_REPOSITORY }}/app-vprofile"
           
           # 2. Debug xem biến nào đang trống
           echo "DEBUG: GAR_REGISTRY=${GAR_REGISTRY}"
