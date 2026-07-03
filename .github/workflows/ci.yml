@@ -106,7 +106,7 @@ jobs:
           echo "DEBUG: REGION=${{ env.GCP_REGION }}"
           echo "DEBUG: PROJECT=${{ env.GCP_PROJECT_ID }}"
           echo "DEBUG: REPO=${{ env.GAR_REPOSITORY }}"
-          
+
           # Định nghĩa Domain Registry của GCP: {vùng}-docker.pkg.dev/{id-project}
           GAR_REGISTRY="${{ env.GCP_REGION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}"
           
@@ -116,6 +116,11 @@ jobs:
           # Đường dẫn image đầy đủ trên GCP: {Domain_Registry}/{Tên_Repository}
           IMAGE_NAME=${GAR_REGISTRY}/${{ env.GAR_REPOSITORY }}
           
+          # 2. Debug xem biến nào đang trống
+          echo "DEBUG: GAR_REGISTRY=${GAR_REGISTRY}"
+          echo "DEBUG: IMAGE_NAME=${IMAGE_NAME}"
+          echo "DEBUG: IMAGE_TAG=${IMAGE_TAG}"
+
           # Thực hiện Build Docker Image từ Dockerfile đa tầng (multistage)
           docker build --file Docker-files/app/multistage/Dockerfile --tag ${IMAGE_NAME}:${IMAGE_TAG} .
           docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_NAME}:latest
