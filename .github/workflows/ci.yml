@@ -122,7 +122,7 @@ jobs:
           IMAGE_TAG=${GITHUB_SHA::7}
           
           # Đường dẫn image đầy đủ trên GCP: {Domain_Registry}/{Tên_Repository}
-          IMAGE_NAME=${GAR_REGISTRY}/${{ env.ECR_REPOSITORY }}
+          IMAGE_NAME=${GAR_REGISTRY}/${{ env.GAR_REPOSITORY }}
           
           # Thực hiện Build Docker Image từ Dockerfile đa tầng (multistage)
           docker build --file Docker-files/app/multistage/Dockerfile --tag ${IMAGE_NAME}:${IMAGE_TAG} .
